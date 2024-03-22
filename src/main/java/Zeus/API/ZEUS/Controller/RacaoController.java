@@ -18,6 +18,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("racao")
+@CrossOrigin(origins = "http://localhost:8081/")
 public class RacaoController {
 
     @Autowired
@@ -30,7 +31,7 @@ public class RacaoController {
     }
 
     @GetMapping
-    public Page<DadosListagemRacao> listarRacao (@PageableDefault(size = 10, sort = {"nome"}) Pageable lista){
+    public Page<DadosListagemRacao> listarRacao (@PageableDefault(size = 20, sort = {"nome"}) Pageable lista){
     return racaoService.listarRacao(lista);
     }
 
