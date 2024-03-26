@@ -1,6 +1,7 @@
 package Zeus.API.ZEUS.Dto;
 
 import Zeus.API.ZEUS.Model.Racao;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
@@ -16,6 +17,7 @@ public record DadosListagemRacao(
         @NotNull
         int valorPago,
         @NotNull
+        @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy")
         LocalDate dataCompra
 ) {
         public DadosListagemRacao (Racao racao){
