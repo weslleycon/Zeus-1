@@ -31,7 +31,7 @@ public class RacaoController {
     }
 
     @GetMapping
-    public Page<DadosListagemRacao> listarRacao (@PageableDefault(size = 20, sort = {"nome"}) Pageable lista){
+    public Page<DadosListagemRacao> listarRacao (@PageableDefault(size = 30, sort = {"nome"}) Pageable lista){
     return racaoService.listarRacao(lista);
     }
 

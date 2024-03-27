@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Date;
@@ -19,7 +20,7 @@ public class Racao {
     private Long id;
     private String nome;
     private int kgQuantidade;
-    private int valorPago;
+    private double valorPago;
     private LocalDate DataCompra;
     private boolean ativo;
 
