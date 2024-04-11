@@ -1,4 +1,4 @@
-package Zeus.API.ZEUS.Model;
+package Zeus.API.ZEUS.infra.cors;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;

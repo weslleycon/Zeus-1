@@ -35,7 +35,7 @@ public class RacaoService {
 
     public ResponseEntity atualizarRacao (DadosAtualizacaoRacao dadosAtualizacao){
         Racao racao = repository.findById(dadosAtualizacao.id()).get();
-        Racao racaoao = new Racao();
+
 
 
         if(dadosAtualizacao.nome() != null){
