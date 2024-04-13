@@ -1,6 +1,7 @@
 package Zeus.API.ZEUS.Service;
 
 import Zeus.API.ZEUS.Model.User;
+import Zeus.API.ZEUS.Repository.UserRepository;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTCreationException;
@@ -9,6 +10,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.MessageSource;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.text.ParseException;
@@ -27,6 +29,8 @@ public class TokenService {
     HttpServletRequest request;
     @Value("${api.security.token.secret}")
     private String secret;
+    @Autowired
+    private UserRepository userRepository;
 
 
 
@@ -71,5 +75,8 @@ public class TokenService {
 //        //toInstant para converter em objeto INSTANT
 //        // dentro do toInstant passa o ZoneOffset.off () para definir o fuso horario
     }
+
+
+
 
 }

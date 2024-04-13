@@ -3,7 +3,9 @@ package Zeus.API.ZEUS.Service;
 import Zeus.API.ZEUS.Dto.DadosAtualizacaoUsuario;
 import Zeus.API.ZEUS.Dto.DadosCadastroUsuario;
 import Zeus.API.ZEUS.Dto.DadosListagemUsuario;
+import Zeus.API.ZEUS.Model.User;
 import Zeus.API.ZEUS.Model.Usuario;
+import Zeus.API.ZEUS.Repository.UserRepository;
 import Zeus.API.ZEUS.Repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -12,12 +14,17 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 
 @Service
 public class UsuarioService {
 
     @Autowired
     private UsuarioRepository usuarioRepository;
+
+    @Autowired
+    private UserRepository userRepository;
 
 public ResponseEntity cadastrarUsuario(DadosCadastroUsuario dadosCadastroUsuario){
     var usuario = new Usuario(dadosCadastroUsuario);
@@ -50,4 +57,7 @@ Usuario usuario = usuarioRepository.getReferenceById(id);
     usuario.excluir();
     return ResponseEntity.noContent().build();
 }
+    public List<User> listarUsuarios() {
+        return userRepository.findAll(); // Supondo que você tenha um método findAll() no seu UserRepository para buscar todos os usuários
+    }
 }
