@@ -1,5 +1,7 @@
 package Zeus.API.ZEUS.Dto;
 
+import Zeus.API.ZEUS.Model.User;
+import Zeus.API.ZEUS.Model.Usuario;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -17,6 +19,7 @@ public record DadosCadastrosRacao (
         @NotNull
         double valorPago,
         @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy")
-        LocalDate dataCompra
+        LocalDate dataCompra,
+        Long idUsuario
 ){
 }

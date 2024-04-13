@@ -2,9 +2,12 @@ package Zeus.API.ZEUS.Model;
 
 import Zeus.API.ZEUS.Dto.DadosCadastroLogin;
 import Zeus.API.ZEUS.Dto.DadosCadastroUsuario;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.security.crypto.password.PasswordEncoder;
+
+import java.util.List;
 
 @Entity
 @Table(name = "usuarios")
@@ -29,6 +32,9 @@ public class Usuario {
         @OneToOne(cascade = CascadeType.ALL)
         @JoinColumn(name = "id_login")
         private User usuario;
+
+
+
 
         public Usuario (DadosCadastroUsuario dadosCadastroUsuario){
             this.ativo = true;

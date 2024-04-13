@@ -7,10 +7,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.util.Date;
 
 @Entity
 @Table(name = "racao")
@@ -28,6 +25,10 @@ public class Racao {
     private LocalDate DataCompra;
     private boolean ativo;
 
+    @ManyToOne
+    @JoinColumn(name = "id_usuario")
+    private Usuario usuario;
+
     public Racao (DadosCadastrosRacao dadosCadastro){
         this.nome = dadosCadastro.nome();
         this.kgQuantidade = dadosCadastro.kgQuantidade();
@@ -36,9 +37,18 @@ public class Racao {
         this.ativo = true;
     }
 
+    public Usuario getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
+    }
+
     public void excluir(){
         this.ativo = false;
     }
+
 
     public Long getId() {
         return id;

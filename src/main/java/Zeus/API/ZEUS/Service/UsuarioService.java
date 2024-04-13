@@ -3,14 +3,18 @@ package Zeus.API.ZEUS.Service;
 import Zeus.API.ZEUS.Dto.DadosAtualizacaoUsuario;
 import Zeus.API.ZEUS.Dto.DadosCadastroUsuario;
 import Zeus.API.ZEUS.Dto.DadosListagemUsuario;
+import Zeus.API.ZEUS.Model.Racao;
 import Zeus.API.ZEUS.Model.User;
 import Zeus.API.ZEUS.Model.Usuario;
+import Zeus.API.ZEUS.Repository.RacaoRepository;
 import Zeus.API.ZEUS.Repository.UserRepository;
 import Zeus.API.ZEUS.Repository.UsuarioRepository;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -22,9 +26,14 @@ public class UsuarioService {
 
     @Autowired
     private UsuarioRepository usuarioRepository;
-
+    @Autowired
+    private RacaoRepository racaoRepository;
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    private TokenService tokenService;
+    @Autowired
+    private AutenticacaoService autenticacaoService;
 
 public ResponseEntity cadastrarUsuario(DadosCadastroUsuario dadosCadastroUsuario){
     var usuario = new Usuario(dadosCadastroUsuario);
@@ -34,6 +43,8 @@ public ResponseEntity cadastrarUsuario(DadosCadastroUsuario dadosCadastroUsuario
 public Page<DadosListagemUsuario> listarUsuario (Pageable lista){
     return usuarioRepository.findAllByAtivoTrue(lista).map(DadosListagemUsuario::new);
 }
+
+
 public ResponseEntity atualizarUsuario(DadosAtualizacaoUsuario dadosAtualizacaoUsuario){
     var usuario = usuarioRepository.findById(dadosAtualizacaoUsuario.id()).get();
 
