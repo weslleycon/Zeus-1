@@ -63,6 +63,16 @@ public ResponseEntity atualizarUsuario(DadosAtualizacaoUsuario dadosAtualizacaoU
     usuarioRepository.save(usuario);
     return ResponseEntity.ok().body(usuario);
 }
+    public ResponseEntity<?> atualizarUsuario(String username, DadosAtualizacaoUsuario dadosAtualizacaoUsuario) {
+        User user = userRepository.findByLogin(username);
+        if (user == null) {
+            return ResponseEntity.notFound().build();
+        }
+        // Salva o usuário atualizado no banco de dados
+        userRepository.save(user);
+
+        return ResponseEntity.ok().build();
+    }
 public ResponseEntity excluirUsuario (Long id){
 Usuario usuario = usuarioRepository.getReferenceById(id);
     usuario.excluir();

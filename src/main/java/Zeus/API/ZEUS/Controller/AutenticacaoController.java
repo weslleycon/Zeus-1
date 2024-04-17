@@ -52,4 +52,7 @@ public class AutenticacaoController {
         UserDetails userDetails = autenticacaoService.loadUserByUsername(username);
         return userDetails;
     }
+
+
+
 }

@@ -14,7 +14,7 @@ public record DadosListagemRacao(
         @NotBlank
         String nome,
         @NotNull
-        int kqQuantidade,
+        int kgQuantidade,
         @NotNull
         double valorPago,
         @NotNull

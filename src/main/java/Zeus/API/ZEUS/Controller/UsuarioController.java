@@ -1,10 +1,8 @@
 package Zeus.API.ZEUS.Controller;
 
-import Zeus.API.ZEUS.Dto.DadosAtualizacaoUsuario;
-import Zeus.API.ZEUS.Dto.DadosCadastroUsuario;
-import Zeus.API.ZEUS.Dto.DadosListagemRacao;
-import Zeus.API.ZEUS.Dto.DadosListagemUsuario;
+import Zeus.API.ZEUS.Dto.*;
 import Zeus.API.ZEUS.Model.User;
+import Zeus.API.ZEUS.Service.AutenticacaoService;
 import Zeus.API.ZEUS.Service.UsuarioService;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
@@ -13,6 +11,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
@@ -24,6 +24,9 @@ import java.util.List;
 public class UsuarioController {
 @Autowired
 private UsuarioService usuarioService;
+
+@Autowired
+private AutenticacaoService autenticacaoService;
 
 
     @PostMapping
@@ -57,5 +60,11 @@ private UsuarioService usuarioService;
         return ResponseEntity.ok(usuarios);
 
     }
-
+//    @PatchMapping("/atualizar")
+//    public ResponseEntity<User> atualizarUsuario(@RequestBody DadosAtualizacaoUser dadosAtualizacaoUser) {
+//        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+//        String username = userDetails.getUsername();
+//        ResponseEntity<?> response = usuarioService.atualizarUsuario(username, dadosAtualizacaoUser);
+//        return response;
+//    }
 }
