@@ -9,6 +9,7 @@
     import Zeus.API.ZEUS.Repository.RacaoRepository;
     import Zeus.API.ZEUS.Repository.UserRepository;
     import Zeus.API.ZEUS.Repository.UsuarioRepository;
+    import Zeus.API.ZEUS.infra.Exception.ValidacaoException;
     import jakarta.servlet.http.HttpServletRequest;
     import org.springframework.beans.factory.annotation.Autowired;
     import org.springframework.data.domain.Page;
@@ -48,7 +49,7 @@
                 Usuario usuario = usuarioRepository.findById(idUsuario)
                         .orElseThrow(() -> new RuntimeException("Usuário não encontrado"));
                 Racao racao = new Racao(dadosCadastros);
-                racao.setDataCompra(LocalDate.now());
+                racao.setDataCompra(dadosCadastros.dataCompra());
                 racao.setUsuario(usuario); // Associando a ração ao usuário
                 repository.save(racao);
                 return ResponseEntity.ok().build();
@@ -67,29 +68,40 @@
         public ResponseEntity atualizarRacao (DadosAtualizacaoRacao dadosAtualizacao){
             Racao racao = repository.findById(dadosAtualizacao.id()).get();
 
+       if(dadosAtualizacao.nome() ==null){
+           racao.setNome(racao.getNome());
+       }else{
+           racao.setNome(dadosAtualizacao.nome());
+       }
 
-
-            if(dadosAtualizacao.nome() != null){
-                racao.setNome(dadosAtualizacao.nome());
+            switch (dadosAtualizacao.kgQuantidade()) {
+                case 0:
+                    racao.setKgQuantidade(racao.getKgQuantidade());
+                    break;
+                default:
+                    racao.setKgQuantidade(dadosAtualizacao.kgQuantidade());
             }
-            if(dadosAtualizacao.kgQuantidade() == 0){
-                racao.setKgQuantidade(racao.getKgQuantidade());
-            } else if (dadosAtualizacao.kgQuantidade() >0) {
-                racao.setKgQuantidade(dadosAtualizacao.kgQuantidade());
+
+
+
+            if (dadosAtualizacao.dataCompra() == null) {
+                racao.setDataCompra(LocalDate.now());
             }
-
-
-            if (dadosAtualizacao.dataCompra()== null) {
-            racao.setDataCompra(LocalDate.now());
-            }else{
+            if(dadosAtualizacao.dataCompra().isAfter(LocalDate.now())){
+                throw new RuntimeException("Verique a sua data");
+            }
+            else {
                 racao.setDataCompra(dadosAtualizacao.dataCompra());
             }
 
-            if(dadosAtualizacao.valorPago() == 0) {
-                racao.setValorPago(racao.getValorPago());
-            } else if (dadosAtualizacao.valorPago() >0) {
-                racao.setValorPago(dadosAtualizacao.valorPago());
+            switch ((int) dadosAtualizacao.valorPago()) {
+                case 0:
+                    racao.setValorPago(racao.getValorPago());
+                    break;
+                default:
+                    racao.setValorPago(dadosAtualizacao.valorPago());
             }
+
             repository.save(racao);
             return ResponseEntity.ok().body(racao);
         }

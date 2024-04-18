@@ -1,8 +1,8 @@
-package Zeus.API.ZEUS.Dto;
+    package Zeus.API.ZEUS.Dto;
 
-public record DadosAtualizacaoUser(
-        Long id,
-        String login,
-        String senha
-) {
-}
+    public record DadosAtualizacaoUser(
+            Long id,
+            String login,
+            String senha
+    ) {
+    }

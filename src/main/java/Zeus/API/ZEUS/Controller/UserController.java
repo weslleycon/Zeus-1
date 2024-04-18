@@ -18,7 +18,9 @@ public class UserController {
     private UserService userService;
     @PutMapping
     @Transactional
-    public ResponseEntity atualizarUser(@RequestBody @Valid DadosAtualizacaoUser dadosAtualizacaoUser){
-        return userService.atualizarUser(dadosAtualizacaoUser);
+    public ResponseEntity atualizarUser(@RequestBody DadosAtualizacaoUser dadosAtualizacaoUser) {
+        ResponseEntity response = userService.atualizarUser(dadosAtualizacaoUser);
+        return ResponseEntity.ok().build();
     }
+
 }
