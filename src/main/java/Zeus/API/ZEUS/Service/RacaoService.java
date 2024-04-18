@@ -49,7 +49,7 @@
                 Usuario usuario = usuarioRepository.findById(idUsuario)
                         .orElseThrow(() -> new RuntimeException("Usuário não encontrado"));
                 Racao racao = new Racao(dadosCadastros);
-                racao.setDataCompra(dadosCadastros.dataCompra());
+                racao.setDataCompra(LocalDate.now());
                 racao.setUsuario(usuario); // Associando a ração ao usuário
                 repository.save(racao);
                 return ResponseEntity.ok().build();
