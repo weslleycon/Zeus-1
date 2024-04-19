@@ -7,6 +7,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 
 @Entity
@@ -21,7 +22,7 @@ public class Racao {
     private Long id;
     private String nome;
     private int kgQuantidade;
-    private double valorPago;
+    private BigDecimal valorPago;
     private LocalDate DataCompra;
     private boolean ativo;
 
@@ -74,11 +75,11 @@ public class Racao {
         this.kgQuantidade = kgQuantidade;
     }
 
-    public double getValorPago() {
+    public BigDecimal getValorPago() {
         return valorPago;
     }
 
-    public void setValorPago(double valorPago) {
+    public void setValorPago(BigDecimal valorPago) {
         this.valorPago = valorPago;
     }
 

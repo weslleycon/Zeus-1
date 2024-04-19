@@ -16,7 +16,7 @@ public record DadosListagemRacao(
         @NotNull
         int kgQuantidade,
         @NotNull
-        double valorPago,
+        BigDecimal valorPago,
         @NotNull
         @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy")
         LocalDate dataCompra

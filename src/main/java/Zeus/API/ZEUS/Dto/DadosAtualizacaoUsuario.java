@@ -5,7 +5,6 @@ public record DadosAtualizacaoUsuario(
         String nome,
         String email,
         String telefone,
-        String cpf,
         int idade
 ) {
 }

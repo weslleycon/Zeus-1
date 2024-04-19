@@ -14,10 +14,12 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.nio.file.attribute.UserPrincipal;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class AutenticacaoService implements UserDetailsService {
@@ -28,23 +30,33 @@ public class AutenticacaoService implements UserDetailsService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         return userRepository.findByLogin(username);
     }
-    public UserDetails atualizarUser(DadosAtualizacaoUser dadosAtualizacaoUser){
-        var user = userRepository.findById(dadosAtualizacaoUser.id()).get();
-        if(dadosAtualizacaoUser.login() == null){
-            user.setLogin(user.getLogin());
-        }else{
-            user.setLogin(dadosAtualizacaoUser.login());
+    public UserDetails atualizarUser(DadosAtualizacaoUser dadosAtualizacaoUser) {
+        Optional<User> optionalUser = userRepository.findById(dadosAtualizacaoUser.id());
+        if (optionalUser.isPresent()) {
+            User user = optionalUser.get();
+            // Verifica se o novo login foi passado e atualiza, se necessário
+            if (dadosAtualizacaoUser.login() != null) {
+                user.setLogin(dadosAtualizacaoUser.login());
+            }else {
+                user.setLogin(user.getLogin());
+            }
+            // Verifica se a nova senha foi passada e atualiza, se necessário
+            if (dadosAtualizacaoUser.senha() != null) {
+                // Criptografa a nova senha antes de atualizar
+                user.setSenha(criptografarSenha(dadosAtualizacaoUser.senha()));
+            }
+            userRepository.save(user);
+            return userRepository.findByLogin(user.getLogin());
+        } else {
+            throw new RuntimeException("Usuário não encontrado para atualização.");
         }
-        if(dadosAtualizacaoUser.senha() != null){
-            user.setSenha(dadosAtualizacaoUser.senha());
-        }
-        else {
-            user.setSenha(user.getSenha());
-        }
-        userRepository.save(user);
-        return userRepository.findByLogin(user.getLogin());
     }
 
+    // Método para criptografar a senha usando BCryptPasswordEncoder
+    private String criptografarSenha(String senha) {
+        return new BCryptPasswordEncoder().encode(senha);
+    }
+}
 //    public UserDetails getLogin (String login) throws UsernameNotFoundException{
 //        return userRepository.findByLogin(login);
 //    }
@@ -57,4 +69,4 @@ public class AutenticacaoService implements UserDetailsService {
 //        return null;
 //    }
 
-}
+

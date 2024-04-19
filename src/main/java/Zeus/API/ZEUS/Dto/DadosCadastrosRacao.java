@@ -17,7 +17,7 @@ public record DadosCadastrosRacao (
         @NotNull
         int kgQuantidade,
         @NotNull
-                double valorPago,
+        BigDecimal valorPago,
         @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy")
         LocalDate dataCompra,
         Long idUsuario

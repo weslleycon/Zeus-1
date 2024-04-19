@@ -19,6 +19,7 @@
     import org.springframework.security.core.userdetails.UserDetails;
     import org.springframework.stereotype.Service;
 
+    import java.math.BigDecimal;
     import java.time.LocalDate;
     import java.util.Optional;
 
@@ -94,12 +95,10 @@
                 racao.setDataCompra(dadosAtualizacao.dataCompra());
             }
 
-            switch ((int) dadosAtualizacao.valorPago()) {
-                case 0:
-                    racao.setValorPago(racao.getValorPago());
-                    break;
-                default:
-                    racao.setValorPago(dadosAtualizacao.valorPago());
+            if (!dadosAtualizacao.valorPago().equals(BigDecimal.ZERO)) {
+                racao.setValorPago(racao.getValorPago());
+            } else {
+                racao.setValorPago(dadosAtualizacao.valorPago());
             }
 
             repository.save(racao);
