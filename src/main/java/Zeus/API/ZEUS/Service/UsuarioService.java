@@ -51,9 +51,7 @@ public ResponseEntity atualizarUsuario(DadosAtualizacaoUsuario dadosAtualizacaoU
     if(dadosAtualizacaoUsuario.nome() != null){
         usuario.setNome(dadosAtualizacaoUsuario.nome());
     }
-    if(dadosAtualizacaoUsuario.cpf() != null){
-        usuario.setCpf(dadosAtualizacaoUsuario.cpf());
-    }
+
     if(dadosAtualizacaoUsuario.email() != null){
         usuario.setEmail(dadosAtualizacaoUsuario.email());
     }
