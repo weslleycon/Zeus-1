@@ -15,11 +15,7 @@ public record DadosCadastroUsuario (
         @Email
         String email,
         @NotBlank
-        @Pattern(regexp = "\\d{9}")
         String telefone,
-        @NotBlank
-        @Pattern(regexp = "\\d{11}")
-        String cpf,
         @NotNull
         int idade,
         @Valid

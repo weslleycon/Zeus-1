@@ -1,24 +1,13 @@
 package Zeus.API.ZEUS.Service;
-
 import Zeus.API.ZEUS.Dto.DadosAtualizacaoUser;
-import Zeus.API.ZEUS.Dto.DadosListagemLogin;
-import Zeus.API.ZEUS.Dto.DadosListagemRacao;
 import Zeus.API.ZEUS.Model.User;
 import Zeus.API.ZEUS.Repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-
-import java.nio.file.attribute.UserPrincipal;
-import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -52,21 +41,19 @@ public class AutenticacaoService implements UserDetailsService {
         }
     }
 
-    // Método para criptografar a senha usando BCryptPasswordEncoder
+
     private String criptografarSenha(String senha) {
         return new BCryptPasswordEncoder().encode(senha);
     }
+    public Long getIdUsuarioPorLogin(String username) {
+        User user = userRepository.findByLogin(username);
+        if (user != null) {
+            return user.getId();
+        } else {
+            throw new UsernameNotFoundException("Usuário não encontrado para o login: " + username);
+        }
+    }
 }
-//    public UserDetails getLogin (String login) throws UsernameNotFoundException{
-//        return userRepository.findByLogin(login);
-//    }
-//    public String getUsernameFromToken() {
-//        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-//        if (authentication != null && authentication.isAuthenticated() && authentication.getPrincipal() instanceof UserPrincipal) {
-//            UserPrincipal userPrincipal = (UserPrincipal) authentication.getPrincipal();
-//            return userPrincipal.getUsername();
-//        }
-//        return null;
-//    }
+
 
 

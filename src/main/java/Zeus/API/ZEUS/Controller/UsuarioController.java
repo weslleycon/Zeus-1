@@ -11,6 +11,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -41,11 +42,11 @@ private AutenticacaoService autenticacaoService;
         //    }
 
 
-    @PutMapping
-    @Transactional
-    public ResponseEntity atualizarUsuario(@RequestBody @Valid DadosAtualizacaoUsuario dadosAtualizacaoUsuario){
-        return usuarioService.atualizarUsuario(dadosAtualizacaoUsuario);
-    }
+//    @PutMapping
+//    @Transactional
+//    public ResponseEntity atualizarUsuario(@RequestBody @Valid DadosAtualizacaoUsuario dadosAtualizacaoUsuario){
+//        return usuarioService.atualizarUsuario(dadosAtualizacaoUsuario);
+//    }
 
     @DeleteMapping("/{id}")
     @Transactional
@@ -59,6 +60,18 @@ private AutenticacaoService autenticacaoService;
         List<User> usuarios = usuarioService.listarUsuarios();
         return ResponseEntity.ok(usuarios);
 
+    }
+    @PostMapping("/atualizar")
+    @Transactional
+    public ResponseEntity<?> atualizarUsuario(@RequestBody DadosAtualizacaoUsuario dadosAtualizacaoUsuario) {
+        // Obtém o nome de usuário (login) a partir do contexto de segurança
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String username = authentication.getName();
+
+        // Chama o serviço de usuário para atualizar os dados do usuário
+        ResponseEntity<?> response = usuarioService.atualizarUsuario(username, dadosAtualizacaoUsuario);
+
+        return response;
     }
 //    @PatchMapping("/atualizar")
 //    public ResponseEntity<User> atualizarUsuario(@RequestBody DadosAtualizacaoUser dadosAtualizacaoUser) {

@@ -7,7 +7,7 @@ public record DadosListagemUsuario(
          String nome,
          String email,
          String telefone,
-         String cpf,
+         
          int idade
 
 
@@ -17,7 +17,6 @@ public record DadosListagemUsuario(
                 usuario.getNome(),
                 usuario.getEmail(),
                 usuario.getTelefone(),
-                usuario.getCpf(),
                 usuario.getIdade());
     }
 }

@@ -26,7 +26,7 @@ public class Usuario {
         private String nome;
         private String email;
         private String telefone;
-        private String cpf;
+
         private int idade;
 
         @OneToOne(cascade = CascadeType.ALL)
@@ -38,7 +38,7 @@ public class Usuario {
 
         public Usuario (DadosCadastroUsuario dadosCadastroUsuario){
             this.ativo = true;
-            this.cpf = dadosCadastroUsuario.cpf();
+
             this.email = dadosCadastroUsuario.email();
             this.nome = dadosCadastroUsuario.nome();
             this.idade = dadosCadastroUsuario.idade();
@@ -98,13 +98,6 @@ public class Usuario {
         this.telefone = telefone;
     }
 
-    public String getCpf() {
-        return cpf;
-    }
-
-    public void setCpf(String cpf) {
-        this.cpf = cpf;
-    }
 
     public int getIdade() {
         return idade;

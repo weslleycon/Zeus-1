@@ -27,6 +27,7 @@ public class SpringDocSecurityConfigurations {
         return http.csrf(AbstractHttpConfigurer::disable).sessionManagement(sm -> sm.sessionCreationPolicy(SessionCreationPolicy.STATELESS)).authorizeHttpRequests(req -> {
             req.requestMatchers(HttpMethod.POST, "/login").permitAll();
             req.requestMatchers(HttpMethod.POST, "/usuario").permitAll();
+            req.requestMatchers(HttpMethod.POST, "/user").permitAll();
             req.requestMatchers("/v3/api-docs/**", "/swagger-ui.html", "swager-ui/**").permitAll();
             req.anyRequest().authenticated();
         }).addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class).build();
