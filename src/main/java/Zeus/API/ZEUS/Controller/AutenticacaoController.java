@@ -42,6 +42,7 @@ public class AutenticacaoController {
         var tokenjwt = tokenService.gerarToken((User) authentication.getPrincipal());
         return ResponseEntity.ok(new DadosTokenJwt(tokenjwt));
     }
+
     @GetMapping
     public UserDetails getLogin(HttpServletRequest request) {
         // Obter o nome de usuário (login) do token JWT presente no cabeçalho da requisição
@@ -52,7 +53,6 @@ public class AutenticacaoController {
         UserDetails userDetails = autenticacaoService.loadUserByUsername(username);
         return userDetails;
     }
-
 
 
 }

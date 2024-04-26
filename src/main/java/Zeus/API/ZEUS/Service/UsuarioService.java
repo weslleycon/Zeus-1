@@ -1,6 +1,7 @@
 package Zeus.API.ZEUS.Service;
 
 import Zeus.API.ZEUS.Dto.DadosAtualizacaoUsuario;
+import Zeus.API.ZEUS.Dto.DadosCadastroLogin;
 import Zeus.API.ZEUS.Dto.DadosCadastroUsuario;
 import Zeus.API.ZEUS.Dto.DadosListagemUsuario;
 import Zeus.API.ZEUS.Model.Racao;
@@ -38,12 +39,19 @@ public class UsuarioService {
     @Autowired
     private AutenticacaoService autenticacaoService;
 
+
     public ResponseEntity cadastrarUsuario(DadosCadastroUsuario dadosCadastroUsuario) {
         var usuario = new Usuario(dadosCadastroUsuario);
-        var cadastrar = usuarioRepository.save(usuario);
-        return ResponseEntity.ok().body(cadastrar);
-    }
 
+        var user = userRepository.findByLogin(dadosCadastroUsuario.user().login());
+        if (user == null || user.getUsername().isEmpty()) {
+            var cadastrar = usuarioRepository.save(usuario);
+            return ResponseEntity.ok().body(cadastrar);
+        } else {
+
+            throw new RuntimeException("Login já em uso");
+        }
+    }
     public Page<DadosListagemUsuario> listarUsuario(Pageable lista) {
         return usuarioRepository.findAllByAtivoTrue(lista).map(DadosListagemUsuario::new);
     }
@@ -83,7 +91,7 @@ public class UsuarioService {
     }
 
     public List<User> listarUsuarios() {
-        return userRepository.findAll(); // Supondo que você tenha um método findAll() no seu UserRepository para buscar todos os usuários
+        return userRepository.findAll();
     }
 
     public Long getIdUsuarioPorIdLogin(Long idLogin) {
