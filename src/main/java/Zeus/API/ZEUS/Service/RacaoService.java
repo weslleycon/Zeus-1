@@ -48,7 +48,7 @@
 
             public ResponseEntity cadastrarRacao(DadosCadastrosRacao dadosCadastros, Long idUsuario){
                 Usuario usuario = usuarioRepository.findById(idUsuario)
-                        .orElseThrow(() -> new RuntimeException("Usuário não encontrado"));
+                        .orElseThrow(() -> new RuntimeException("Usuário não encontrado com o ID: " + idUsuario));
                 Racao racao = new Racao(dadosCadastros);
                 if(dadosCadastros.dataCompra() == null) {
                     racao.setDataCompra(LocalDate.now());
@@ -58,7 +58,7 @@
                 if(dadosCadastros.dataCompra().isAfter(LocalDate.now())){
                     throw new RuntimeException("Corrija a data");
                 }
-                racao.setUsuario(usuario); // Associando a ração ao usuário
+                racao.setUsuario(usuario);
                 repository.save(racao);
                 return ResponseEntity.ok().build();
             }
