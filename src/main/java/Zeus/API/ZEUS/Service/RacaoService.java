@@ -73,5 +73,48 @@
             return repository.listarRacaoPorUser(usuarioId, lista).map(DadosListagemRacao::new);
         }
 
-        
+        public ResponseEntity atualizarRacao (DadosAtualizacaoRacao dadosAtualizacao){
+            Racao racao = repository.findById(dadosAtualizacao.id()).get();
+
+       if(dadosAtualizacao.nome() ==null){
+           racao.setNome(racao.getNome());
+       }else{
+           racao.setNome(dadosAtualizacao.nome());
+       }
+
+            switch (dadosAtualizacao.kgQuantidade()) {
+                case 0:
+                    racao.setKgQuantidade(racao.getKgQuantidade());
+                    break;
+                default:
+                    racao.setKgQuantidade(dadosAtualizacao.kgQuantidade());
+            }
+
+
+
+            if (dadosAtualizacao.dataCompra() == null) {
+                racao.setDataCompra(LocalDate.now());
+            }
+            if(dadosAtualizacao.dataCompra().isAfter(LocalDate.now())){
+                throw new RuntimeException("Verique a sua data");
+            }
+            else {
+                racao.setDataCompra(dadosAtualizacao.dataCompra());
+            }
+
+            if (!dadosAtualizacao.valorPago().equals(BigDecimal.ZERO)) {
+                racao.setValorPago(racao.getValorPago());
+            } else {
+                racao.setValorPago(dadosAtualizacao.valorPago());
+            }
+
+            repository.save(racao);
+            return ResponseEntity.ok().body(racao);
+        }
+
+        public ResponseEntity excluirRacao(Long id){
+            Racao racao = repository.getReferenceById(id);
+            racao.excluir();
+            return ResponseEntity.noContent().build();
+        }
     }
