@@ -46,7 +46,33 @@
     //
     //    }
 
-           
+            public ResponseEntity cadastrarRacao(DadosCadastrosRacao dadosCadastros, Long idUsuario){
+                Usuario usuario = usuarioRepository.findById(idUsuario)
+                        .orElseThrow(() -> new RuntimeException("Usuário não encontrado com o ID: " + idUsuario));
+                Racao racao = new Racao(dadosCadastros);
+                if(dadosCadastros.dataCompra() == null) {
+                    racao.setDataCompra(LocalDate.now());
+                }else {
+                    racao.setDataCompra(dadosCadastros.dataCompra());
+                }
+                if(dadosCadastros.dataCompra().isAfter(LocalDate.now())){
+                    throw new RuntimeException("Corrija a data");
+                }
+                racao.setUsuario(usuario);
+                repository.save(racao);
+                return ResponseEntity.ok().build();
+            }
+
+
+        public Page<DadosListagemRacao> listarRacao(HttpServletRequest request, Pageable lista) {
+            String tokenJWT = request.getHeader("Authorization").replace("Bearer ", "");
+            String username = tokenService.getSubject(tokenJWT);
+            User user = userRepository.findByLogin(username);
+            Long usuarioId = user.getId();
+
+            return repository.listarRacaoPorUser(usuarioId, lista).map(DadosListagemRacao::new);
+        }
+
         public ResponseEntity atualizarRacao (DadosAtualizacaoRacao dadosAtualizacao){
             Racao racao = repository.findById(dadosAtualizacao.id()).get();
 
